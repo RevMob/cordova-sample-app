@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="com.revmob.cordova.plugin" version="9.1.0">
+
+    <name>RevMob Cordova Plugin</name>
+    <description>Official RevMob Cordova Plugin for iOS and Android</description>
+    <author>RevMob</author>
+    <license></license>
+    <keywords>revmob,ad,network,cordova</keywords>
+    <repo>https://github.com/revmob/cordova-sdk-plugin</repo>
+    <issue></issue>
+	<engines>
+	    <engine name="cordova" version=">=3.0.0" />
+	</engines>
+
+    <js-module src="www/revmob.js">
+        <clobbers target="RevMob" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+	    <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="RevMobPlugin" >
+                <param name="android-package" value="com.revmob.cordova.plugin.RevMobPlugin"/>
+            </feature>
+        </config-file>
+
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<activity android:name="com.revmob.FullscreenActivity"
+					  android:theme="@android:style/Theme.Translucent"
+					  android:configChanges="keyboardHidden|orientation">
+			</activity>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+			<uses-permission android:name="android.permission.INTERNET"/>
+			<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        </config-file>
+
+        <source-file src="src/android/RevMobPlugin.java" target-dir="src/com/revmob/cordova/plugin" />
+
+	    <source-file src="src/android/revmob.jar" target-dir="libs" />
+
+    </platform>
+
+	<!-- ios -->
+	<platform name="ios">
+		<config-file target="config.xml" parent="/*">
+			<feature name="RevMobPlugin">
+				<param name="ios-package" value="RevMobPlugin" />
+			</feature>
+		</config-file>
+
+		<header-file src="src/ios/RevMobPlugin.h" />
+		<source-file src="src/ios/RevMobPlugin.m" />
+
+		<framework src="src/ios/RevMobAds.framework" custom="true" />
+ 	    <framework src="StoreKit.framework" />
+        <framework src="SystemConfiguration.framework" />
+ 	    <framework src="MediaPlayer.framework" />
+        <framework src="AdSupport.framework" />
+        <framework src="CoreLocation.framework" />
+	</platform>
+</plugin>

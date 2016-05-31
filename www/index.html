@@ -1,0 +1,282 @@
+<!-- Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Revmob Sample App</title>
+        <style>
+            button{
+                width:100%;
+                background:#17AADF;
+                color:#fff;
+                font-size:12px;
+                border:none;
+                border-radius:3px;
+                padding:16px;
+                margin:10px 5px 15px 20px;
+                margin-top:40px;
+                cursor:pointer;
+                -webkit-appearance: none;
+            }
+        button:hover{
+            background:#000;
+        }
+
+            </style>
+    </head>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+        var revmob = null;
+        function onDeviceReady() {
+            if( /(android)/i.test(navigator.userAgent) ) {
+                // for Android
+                revmob = new RevMob("5695f1c559163ac94e52394c");
+            } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) {
+                // for iOS
+                revmob = new RevMob("5695efd659163ac94e52393e");
+            } else {
+                alert('platform not supported');
+            }
+
+        }
+    function onBodyLoad() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+    var onSuccess = function (event) {
+        var message = "";
+
+        switch(event.RevMobAdsEvent) {
+              case "SESSION_STARTED":
+
+                message = "Session started";
+                break;
+              case "FULLSCREEN_RECEIVED":
+
+                message = "Fullscreen ad received and ready to be displayed.";
+                break;
+              case "FULLSCREEN_DISMISSED":
+
+                message = "Fullscreen dismissed!";
+                break;
+              case "FULLSCREEN_CLICKED":
+
+                message = "Fullscreen clicked!";
+                break;
+              case "FULLSCREEN_DISPLAYED":
+
+                message = "Fullscreen displayed!";
+                break;
+              case "LOAD_FULLSCREEN_RECEIVED":
+
+                message = "LoadFullscreen ad received and ready to be displayed.";
+                break;
+              case "LOAD_FULLSCREEN_DISMISSED":
+
+                message = "LoadFullscreen dismissed.";
+                break;
+              case "LOAD_FULLSCREEN_CLICKED":
+
+                message = "LoadFullscreen clicked.";
+                break;
+              case "LOAD_FULLSCREEN_DISPLAYED":
+
+                message = "loadFullscreen displayed!";
+                break;
+              case "VIDEO_LOADED":
+
+                message = "Video loaded.";
+                break;
+              case "VIDEO_DID_START":
+
+                message = "Video started.";
+                break;
+              case "VIDEO_DID_FINISH":
+
+                message = "Video finished.";
+                break;
+              case "VIDEO_DID_CLOSE_VIDEO":
+
+                message = "Video closed.";
+                break;
+              case "VIDEO_DID_CLICK_ON_VIDEO":
+
+                message = "Video clicked.";
+                break;
+              case "REWARDED_VIDEO_LOADED":
+
+                message = "Rewarded Video loaded.";
+                break;
+              case "REWARDED_VIDEO_STARTED":
+
+                message = "Rewarded Video started.";
+                break;
+              case "REWARDED_VIDEO_COMPLETED":
+
+                message = "Rewarded Video completed.";
+                break;
+              case "BANNER_RECEIVED":
+
+                message = "Banner ad received and ready to be displayed.";
+                break;
+              case "BANNER_DISMISSED":
+
+                message = "Banner ad dismissed.";
+                break;
+              case "BANNER_CLICKED":
+
+                message = "Banner clicked.";
+                break;
+              case "BANNER_DISPLAYED":
+
+                message = "Banner displayed!";
+                break;
+              case "CUSTOM_BANNER_RECEIVED":
+
+                message = "Custom Banner ad received and ready to be displayed.";
+                break;
+              case "CUSTOM_BANNER_DISMISSED":
+
+                message = "Custom Banner dismissed.";
+                break;
+              case "CUSTOM_BANNER_CLICKED":
+
+                message = "Custom Banner clicked.";
+                break;
+              case "CUSTOM_BANNER_DISPLAYED":
+
+                message = "Custom Banner displayed.";
+                break;
+              case "LOAD_NATIVE_LINK_CLICKED":
+
+                message = "LoadNative link clicked.";
+                break;
+              case "LOAD_NATIVE_LINK_RECEIVED":
+
+                message = "LoadNative link received.";
+                break;
+              case "NATIVE_LINK_CLICKED":
+
+                message = "Native link clicked.";
+                break;
+              default:
+                message = event.RevMobAdsEvent;
+        }
+        var element = document.getElementById('eventLog');
+        element.innerHTML = 'EVENT: ' + message;
+    }
+
+    var onError = function (event) {
+        var message = "";
+        String.prototype.startsWith = function( str ){
+          return ( this.indexOf( str ) === 0 );
+        };
+        switch(true){
+          case event.RevMobAdsEvent.startsWith('NATIVE_LINK_NOT_RECEIVED'):
+
+            message = "Native not received!";
+            break;
+          case event.RevMobAdsEvent.startsWith('LOAD_NATIVE_LINK_NOT_RECEIVED'):
+
+            message = "LoadNative not received!";
+            break;
+          case event.RevMobAdsEvent.startsWith('LOAD_FULLSCREEN_NOT_RECEIVED'):
+
+            message = "LoadFullscreen not received!";
+            break;
+          case event.RevMobAdsEvent.startsWith('FULLSCREEN_NOT_RECEIVED'):
+
+            message = "fullscreen not received!";
+            break;
+          case event.RevMobAdsEvent.startsWith('VIDEO_DID_FAIL_WITH_ERROR'):
+
+            message = "Video failed";
+            break;
+          case event.RevMobAdsEvent.startsWith('VIDEO_NOT_COMPLETELY_LOADED'):
+
+            message = "Video not completely loaded.";
+            break;
+          case event.RevMobAdsEvent.startsWith('REWARDED_VIDEO_FAILED_TO_LOAD'):
+
+            message = "Rewarded Video failed to load.";
+            break;
+          case event.RevMobAdsEvent.startsWith('REWARDED_VIDEO_NOT_COMPLETELY_LOADED'):
+
+            message = "Rewarded Video not completely loaded.";
+            break;
+          case event.RevMobAdsEvent.startsWith('BANNER_NOT_RECEIVED'):
+
+            message = "Banner not received!";
+            break;
+          case event.RevMobAdsEvent.startsWith('CUSTOM_BANNER_NOT_RECEIVED'):
+
+            message = "Custom Banner not received!";
+            break;
+          case event.RevMobAdsEvent.startsWith('SESSION_NOT_STARTED'):
+            message = "Session not started!";
+            break;
+          default:
+            message = event.RevMobAdsEvent;
+        }
+
+        var element = document.getElementById('eventLog');
+        element.innerHTML = 'ERROR: ' + message;
+    }
+
+        </script>
+
+    <body onload="onBodyLoad()">
+        <div class="app">
+            <h1> RevMob Sample App</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+            <div>
+                <input name="" type="text" placeholder="Test input">
+                    </div>
+            <div class="revmob-panel">
+                <button onclick="revmob.startSession(onSuccess, onError);">Start Session</button><br />
+                <button onclick="revmob.showFullscreen(['UIInterfaceOrientationPortrait','UIInterfaceOrientationPortraitUpsideDown'], onSuccess, onError);">Show Fullscreen</button><br />
+                <button onclick="revmob.loadFullscreen(['UIInterfaceOrientationPortrait','UIInterfaceOrientationPortraitUpsideDown'], onSuccess, onError);">Load Fullscreen</button><br />
+                <button onclick="revmob.showLoadedFullscreen( onSuccess, onError);">Show Loaded Fullscreen</button><br />
+                <button onclick="revmob.loadVideo(onSuccess, onError);">Load Video</button><br />
+                <button onclick="revmob.showVideo(onSuccess, onError);">Show Video</button><br />
+                <button onclick="revmob.loadRewardedVideo(onSuccess, onError);">Load Rewarded Video</button><br />
+                <button onclick="revmob.showRewardedVideo(onSuccess, onError);">Show Rewarded Video</button><br />
+                <button onclick="revmob.showBanner(['UIInterfaceOrientationPortrait','UIInterfaceOrientationPortraitUpsideDown'], onSuccess, onError);">Show Banner</button><br />
+                <button onclick="revmob.hideBanner(onSuccess, onError);">Hide Banner</button><br />
+                <button onclick="revmob.showCustomBannerPos(['UIInterfaceOrientationPortrait','UIInterfaceOrientationPortraitUpsideDown'],0, 20, 320, 50, onSuccess, onError);">Show Custom Banner Position</button><br />
+                <button onclick="revmob.hideCustomBanner(onSuccess, onError);">Hide Custom Banner</button><br />
+                <button onclick="revmob.openLink(onSuccess, onError);">Open Link</button><br />
+                <button onclick="revmob.loadAdLink(onSuccess, onError);">Load Ad Link</button><br />
+                <button onclick="revmob.openLoadedAdLink(onSuccess, onError);">Open Loaded Ad Link</button><br />
+                <button onclick="revmob.printEnvironmentInformation();">Print Environment Information</button><br />
+                <button onclick="revmob.setUserAgeRangeMin(10);">Set User Age Range Min</button><br />
+                <button onclick="revmob.setTimeoutInSeconds(5,onSuccess, onError);">Set timeout (5s)</button><br />
+            </div>
+            <p id="eventLog">Waiting for events</p>
+        </div>
+    </body>
+</html>

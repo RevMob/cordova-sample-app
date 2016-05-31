@@ -1,0 +1,28 @@
+{
+  "version": "9.1.0",
+  "name": "com.revmob.cordova.plugin",
+  "cordova_name": "RevMob Cordova Plugin",
+  "description": "Official RevMob Cordova SDK plugin.",
+  "platforms": [
+    "android",
+    "ios"
+  ],
+  "engines": [
+  {
+    "name": "cordova",
+    "version": ">=3.0.0"
+  }
+  ],
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova",
+    "ad"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/revmob/cordova-sdk-plugin.git"
+  },
+  "homepage": "https://www.revmobmobileadnetwork.com"
+}
